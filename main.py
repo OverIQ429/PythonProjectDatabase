@@ -29,7 +29,6 @@ class CafeDatabaseManager:
         self.branch_conn.close()
 
     def create_dish(self, name, description, price, category_id):
-        """CREATE: Add new dish to common database"""
         with self.common_conn.cursor() as cursor:
             cursor.execute("""
                 INSERT INTO dishes (name, description, base_price, category_id)
@@ -41,7 +40,6 @@ class CafeDatabaseManager:
             return dish_id
 
     def read_dishes(self, category_id=None):
-        """READ: Get dishes from common database"""
         with self.common_conn.cursor(cursor_factory=RealDictCursor) as cursor:
             if category_id:
                 cursor.execute("""
@@ -65,7 +63,6 @@ class CafeDatabaseManager:
             return dishes
 
     def update_dish_price(self, dish_id, new_price):
-        """UPDATE: Update dish price in common database"""
         with self.common_conn.cursor() as cursor:
             cursor.execute("""
                 UPDATE dishes SET base_price = %s WHERE id = %s
@@ -74,7 +71,6 @@ class CafeDatabaseManager:
             print(f" Dish ID {dish_id} price updated: {new_price} RUB")
 
     def deactivate_dish(self, dish_id):
-        """DELETE: Deactivate dish in common database"""
         with self.common_conn.cursor() as cursor:
             cursor.execute("""
                 UPDATE dishes SET is_active = false WHERE id = %s
@@ -82,10 +78,8 @@ class CafeDatabaseManager:
             self.common_conn.commit()
             print(f" Dish ID {dish_id} deactivated")
 
-    # === CRUD for CUSTOMERS (cafe_branch_1 - port 5433) ===
 
     def generate_phone(self):
-        """Generates random Russian phone number"""
         operators = ['901', '902', '903', '904', '905', '906', '908', '909',
                      '910', '911', '912', '913', '914', '915', '916', '917']
         operator = random.choice(operators)
@@ -93,7 +87,6 @@ class CafeDatabaseManager:
         return f"+7{operator}{number}"
 
     def create_customer(self, first_name, last_name, email=None):
-        """CREATE: Add new customer to branch database"""
         phone = self.generate_phone()
         with self.branch_conn.cursor() as cursor:
             cursor.execute("""
@@ -106,7 +99,6 @@ class CafeDatabaseManager:
             return customer_id
 
     def read_customers(self):
-        """READ: Get customers from branch database"""
         with self.branch_conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("""
                 SELECT * FROM customers 
@@ -118,10 +110,8 @@ class CafeDatabaseManager:
                 print(f"  {customer['id']}: {customer['first_name']} {customer['last_name']} - {customer['phone']}")
             return customers
 
-    # === CRUD for ORDERS (cafe_branch_1 - port 5433) ===
 
     def create_order(self, employee_id, table_id, customer_id=None):
-        """CREATE: Create new order in branch database"""
         with self.branch_conn.cursor() as cursor:
             cursor.execute("""
                 INSERT INTO orders (employee_id, table_id, customer_id, status, order_date)
@@ -133,9 +123,7 @@ class CafeDatabaseManager:
             return order_id
 
     def add_dish_to_order(self, order_id, dish_id, quantity):
-        """CREATE: Add dish to order (cross-database operation)"""
         try:
-            # Step 1: Get dish price from COMMON database (port 5432)
             with self.common_conn.cursor() as cursor:
                 cursor.execute("SELECT name, base_price FROM dishes WHERE id = %s AND is_active = true", (dish_id,))
                 result = cursor.fetchone()
@@ -145,7 +133,6 @@ class CafeDatabaseManager:
 
                 dish_name, price = result
 
-            # Step 2: Add to order in BRANCH database (port 5433)
             with self.branch_conn.cursor() as cursor:
                 cursor.execute("""
                     INSERT INTO orderitems (order_id, dish_id, quantity, price_at_time)
@@ -170,7 +157,6 @@ class CafeDatabaseManager:
             return False
 
     def read_orders(self, status=None):
-        """READ: Get orders from branch database"""
         with self.branch_conn.cursor(cursor_factory=RealDictCursor) as cursor:
             if status:
                 cursor.execute("""
@@ -217,9 +203,7 @@ class CafeDatabaseManager:
             print(f"Order {order_id} status changed to: {new_status}")
 
     def read_order_details(self, order_id):
-        """READ: Order details with information from both databases"""
         with self.branch_conn.cursor(cursor_factory=RealDictCursor) as cursor:
-            # Order information from branch database
             cursor.execute("""
                 SELECT o.*, e.first_name, e.last_name, t.table_number,
                        c.first_name as customer_name, c.last_name as customer_last_name
@@ -235,7 +219,6 @@ class CafeDatabaseManager:
                 print(f" Order {order_id} not found")
                 return None, None
 
-            # Order items from branch database
             cursor.execute("""
                 SELECT oi.* 
                 FROM orderitems oi
@@ -243,7 +226,6 @@ class CafeDatabaseManager:
             """, (order_id,))
             items = cursor.fetchall()
 
-        # Get dish names from COMMON database
         dish_names = {}
         if items:
             dish_ids = [item['dish_id'] for item in items]
@@ -273,7 +255,6 @@ class CafeDatabaseManager:
         return order, items
 
     def get_employee_info(self, employee_id):
-        """READ: Get employee information"""
         with self.branch_conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("""
                 SELECT * FROM employees WHERE id = %s
@@ -282,7 +263,6 @@ class CafeDatabaseManager:
             return employee
 
     def get_table_info(self, table_id):
-        """READ: Get table information"""
         with self.branch_conn.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("""
                 SELECT * FROM tables WHERE id = %s
@@ -297,15 +277,12 @@ def main():
     try:
 
         # Demonstration operations
-        print("\n1. CURRENT DATA:")
-        print("\nFrom COMMON database (port 5432):")
         manager.read_dishes()
 
-        print("\nFrom BRANCH database (port 5433):")
         manager.read_customers()
         manager.read_orders()
 
-        print("\n2. CREATE OPERATIONS:")
+        print("\nCREATE OPERATIONS:")
         # Create new customer in branch database
         customer_id = manager.create_customer("John", "Smith", "john.smith@email.com")
 
@@ -313,26 +290,24 @@ def main():
         order_id = manager.create_order(employee_id=1, table_id=2, customer_id=customer_id)
 
         # Add dishes to order (cross-database operation!)
-        print("\n3. CROSS-DATABASE OPERATIONS:")
+        print("\nCROSS-DATABASE OPERATIONS:")
         manager.add_dish_to_order(order_id, 1, 2)  # Dish from common database
         manager.add_dish_to_order(order_id, 3, 1)  # Dish from common database
         manager.add_dish_to_order(order_id, 5, 1)  # Dish from common database
 
-        print("\n4. READ OPERATIONS:")
+        print("\nREAD OPERATIONS:")
         manager.read_order_details(order_id)
 
-        print("\n5. UPDATE OPERATIONS:")
+        print("\nUPDATE OPERATIONS:")
         manager.update_order_status(order_id, "ready")
         manager.update_dish_price(1, 500.00)  # Update price in common database
 
-        print("\n6. DELETE OPERATIONS:")
+        print("\nDELETE OPERATIONS:")
         manager.deactivate_dish(7)  # Deactivate dish in common database
 
-        print("\n7. FINAL DATA:")
-        print("\nCommon database (port 5432):")
+        print("\nFINAL DATA:")
         manager.read_dishes()
 
-        print("\nBranch database (port 5433):")
         manager.read_orders()
         manager.read_customers()
 
