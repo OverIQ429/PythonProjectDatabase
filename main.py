@@ -124,9 +124,9 @@ class CafeDatabaseManager:
         """CREATE: Create new order in branch database"""
         with self.branch_conn.cursor() as cursor:
             cursor.execute("""
-                INSERT INTO orders (employee_id, table_id, customer_id)
-                VALUES (%s, %s, %s) RETURNING id
-            """, (employee_id, table_id, customer_id))
+                INSERT INTO orders (employee_id, table_id, customer_id, status, order_date)
+                VALUES (%s, %s, %s, %s, %s) RETURNING id
+            """, (employee_id, table_id, customer_id, 'accepted', datetime.now()))
             order_id = cursor.fetchone()[0]
             self.branch_conn.commit()
             print(f" Order created with ID: {order_id}")
