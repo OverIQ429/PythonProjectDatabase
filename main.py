@@ -239,7 +239,7 @@ class CafeDatabaseManager:
                 for dish in cursor.fetchall():
                     dish_names[dish['id']] = dish['name']
 
-        print(f"\n📦 Order {order_id} details:")
+        print(f"\n Order {order_id} details:")
         print(f"  Table: {order['table_number']}")
         print(f"  Waiter: {order['first_name']} {order['last_name']}")
         print(f"  Customer: {order['customer_name']} {order['customer_last_name']}")
