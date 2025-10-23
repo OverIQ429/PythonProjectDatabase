@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import sys
 from datetime import datetime
-
+import random
 
 class CafeDatabaseManager:
     def __init__(self):
@@ -85,8 +85,17 @@ class CafeDatabaseManager:
 
     # === CRUD для КЛИЕНТОВ (cafe_branch_1 - порт 5433) ===
 
-    def create_customer(self, first_name, last_name, phone, email=None):
+    def generate_phone(self):
+        """Генерирует случайный российский номер телефона"""
+        operators = ['901', '902', '903', '904', '905', '906', '908', '909',
+                     '910', '911', '912', '913', '914', '915', '916', '917']
+        operator = random.choice(operators)
+        number = ''.join([str(random.randint(0, 9)) for _ in range(7)])
+        return f"+7{operator}{number}"
+
+    def create_customer(self, first_name, last_name, email=None):
         """CREATE: Добавить нового клиента в базу филиала"""
+        phone = self.generate_phone()
         with self.branch_conn.cursor() as cursor:
             cursor.execute("""
                 INSERT INTO customers (first_name, last_name, phone, email)
