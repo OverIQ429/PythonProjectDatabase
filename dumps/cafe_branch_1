@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict OLlLzqVgFQRBQlGY7D9YHbwGjEO1abiZscqzFbYNPxKLvlcyXGrA9gRJysyv9dz
+\restrict e8dpu6Sxt6nkYCMWvld0PoB9qT4OAnyxX7cU6iGOVlD0dXfAB3AkUCnNLXXjYrp
 
 -- Dumped from database version 18.0
 -- Dumped by pg_dump version 18.0
 
--- Started on 2025-10-23 19:09:18
+-- Started on 2025-10-23 21:35:28
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -37,8 +37,7 @@ CREATE TABLE public.customers (
     phone character varying(20),
     email character varying(100),
     birth_date date,
-    registration_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    loyalty_points integer DEFAULT 0
+    registration_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -61,7 +60,7 @@ CREATE SEQUENCE public.customers_id_seq
 ALTER SEQUENCE public.customers_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4993 (class 0 OID 0)
+-- TOC entry 4992 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -82,7 +81,7 @@ CREATE TABLE public.employees (
     phone character varying(20),
     branch_id integer NOT NULL,
     email character varying(100),
-    CONSTRAINT chk_employee_position CHECK ((("position")::text = ANY ((ARRAY['®дЁжЁ ­в'::character varying, 'Ї®ў а'::character varying, 'Ў аЁбв '::character varying, ' ¤¬Ё­Ёбва в®а'::character varying, '¬Ґ­Ґ¤¦Ґа'::character varying, 'гЎ®айЁЄ'::character varying])::text[])))
+    CONSTRAINT chk_employee_position CHECK ((("position")::text = ANY ((ARRAY['Waiter'::character varying, 'Cook'::character varying, 'Barista'::character varying, 'Manager'::character varying, 'Cleaner'::character varying, 'Cashier'::character varying])::text[])))
 );
 
 
@@ -105,7 +104,7 @@ CREATE SEQUENCE public.employees_id_seq
 ALTER SEQUENCE public.employees_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4994 (class 0 OID 0)
+-- TOC entry 4993 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -146,7 +145,7 @@ CREATE SEQUENCE public.orderitems_id_seq
 ALTER SEQUENCE public.orderitems_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4995 (class 0 OID 0)
+-- TOC entry 4994 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: orderitems_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -167,7 +166,7 @@ CREATE TABLE public.orders (
     employee_id integer NOT NULL,
     table_id integer NOT NULL,
     customer_id integer,
-    CONSTRAINT chk_order_status CHECK (((status)::text = ANY ((ARRAY['ЇаЁ­пв'::character varying, 'Ј®в®ўЁвбп'::character varying, 'Ј®в®ў'::character varying, 'Ї®¤ ­'::character varying, '§ ўҐаиҐ­'::character varying, '®в¬Ґ­Ґ­'::character varying])::text[])))
+    CONSTRAINT chk_order_status CHECK (((status)::text = ANY ((ARRAY['accepted'::character varying, 'cooking'::character varying, 'ready'::character varying, 'completed'::character varying, 'canceled'::character varying])::text[])))
 );
 
 
@@ -190,7 +189,7 @@ CREATE SEQUENCE public.orders_id_seq
 ALTER SEQUENCE public.orders_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4996 (class 0 OID 0)
+-- TOC entry 4995 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -238,7 +237,7 @@ CREATE SEQUENCE public.reviews_id_seq
 ALTER SEQUENCE public.reviews_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4997 (class 0 OID 0)
+-- TOC entry 4996 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -279,7 +278,7 @@ CREATE SEQUENCE public.tables_id_seq
 ALTER SEQUENCE public.tables_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4998 (class 0 OID 0)
+-- TOC entry 4997 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: tables_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -320,7 +319,7 @@ ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.order
 
 
 --
--- TOC entry 4790 (class 2604 OID 16522)
+-- TOC entry 4789 (class 2604 OID 16522)
 -- Name: reviews id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -336,103 +335,112 @@ ALTER TABLE ONLY public.tables ALTER COLUMN id SET DEFAULT nextval('public.table
 
 
 --
--- TOC entry 4985 (class 0 OID 16505)
+-- TOC entry 4984 (class 0 OID 16505)
 -- Dependencies: 228
 -- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.customers (id, first_name, last_name, phone, email, birth_date, registration_date, loyalty_points) FROM stdin;
-1	„¬ЁваЁ©	‚®«Є®ў	+79160001122	dmitry@mail.ru	\N	2025-10-23 10:36:26.631629	0
-2	…«Ґ­ 	Ћа«®ў 	+79162223344	elena@gmail.com	\N	2025-10-23 10:36:26.631629	0
-3	Ђ«ҐЄбҐ©	Љ®¬ а®ў	+79163334455	alex@yandex.ru	\N	2025-10-23 10:36:26.631629	0
+COPY public.customers (id, first_name, last_name, phone, email, birth_date, registration_date) FROM stdin;
+1	Ivan	Smirnov	+79165556677	ivan@mail.ru	1990-05-15	2025-10-23 21:34:59.535228
+2	Olga	Kuznetsova	+79166667788	olga@mail.ru	1985-08-20	2025-10-23 21:34:59.535228
+3	Sergey	Popov	+79167778899	sergey@mail.ru	1992-12-10	2025-10-23 21:34:59.535228
+4	Maria	Vasilyeva	+79168889900	maria@mail.ru	1988-03-25	2025-10-23 21:34:59.535228
+5	Alexey	Novikov	+79169990011	alexey@mail.ru	1995-07-30	2025-10-23 21:34:59.535228
 \.
 
 
 --
--- TOC entry 4977 (class 0 OID 16441)
+-- TOC entry 4976 (class 0 OID 16441)
 -- Dependencies: 220
 -- Data for Name: employees; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.employees (id, first_name, last_name, "position", phone, branch_id, email) FROM stdin;
-1	Ђ­­ 	€ў ­®ў 	®дЁжЁ ­в	+79161234567	1	anna@cafe.ru
-2	ЏҐва	‘Ё¤®а®ў	Ї®ў а	+79167654321	1	petr@cafe.ru
-3	Њ аЁп	ЏҐва®ў 	 ¤¬Ё­Ёбва в®а	+79169998877	1	maria@cafe.ru
-4	€ў ­	Љг§­Ґж®ў	Ў аЁбв 	+79165554433	1	ivan@cafe.ru
+1	Anna	Ivanova	Waiter	+79161112233	1	anna@cafe.ru
+2	Dmitry	Petrov	Cook	+79162223344	1	dmitry@cafe.ru
+3	Elena	Sidorova	Barista	+79163334455	1	elena@cafe.ru
+4	Mikhail	Kozlov	Manager	+79164445566	1	mikhail@cafe.ru
 \.
 
 
 --
--- TOC entry 4983 (class 0 OID 16480)
+-- TOC entry 4982 (class 0 OID 16480)
 -- Dependencies: 226
 -- Data for Name: orderitems; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.orderitems (id, order_id, dish_id, quantity, price_at_time) FROM stdin;
 1	1	1	1	1200.00
-2	1	2	2	450.00
-3	2	3	1	320.00
-4	3	1	1	1200.00
-5	1	1	1	1200.00
-6	1	6	2	280.00
-7	1	12	1	320.00
-8	4	1	1	1200.00
-9	4	6	2	280.00
-10	4	12	1	320.00
+2	1	7	2	280.00
+3	1	9	1	180.00
+4	2	3	1	450.00
+5	2	8	1	260.00
+6	2	10	2	150.00
+7	3	2	1	850.00
+8	3	11	1	350.00
+9	3	12	1	380.00
+10	4	4	1	380.00
+11	4	6	1	320.00
+12	5	3	1	450.00
 \.
 
 
 --
--- TOC entry 4981 (class 0 OID 16467)
+-- TOC entry 4980 (class 0 OID 16467)
 -- Dependencies: 224
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.orders (id, order_date, status, total_amount, employee_id, table_id, customer_id) FROM stdin;
-2	2025-10-23 10:43:42.791846	Ј®в®ўЁвбп	320.00	1	2	2
-3	2025-10-23 10:43:42.791846	ЇаЁ­пв	1200.00	1	3	\N
-1	2025-10-23 10:43:42.791846	§ ўҐаиҐ­	4180.00	1	1	1
-4	2025-10-23 11:14:11.882755	§ ўҐаиҐ­	2080.00	1	1	\N
+1	2025-10-18 21:34:59.544757	completed	1850.00	1	1	1
+2	2025-10-20 21:34:59.544757	completed	920.00	1	2	2
+3	2025-10-22 21:34:59.544757	ready	1430.00	2	3	3
+4	2025-10-23 19:34:59.544757	cooking	670.00	3	4	4
+5	2025-10-23 21:04:59.544757	accepted	450.00	1	5	5
 \.
 
 
 --
--- TOC entry 4987 (class 0 OID 16519)
+-- TOC entry 4986 (class 0 OID 16519)
 -- Dependencies: 230
 -- Data for Name: reviews; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.reviews (id, order_id, customer_id, rating, comment_text, service_rating, food_rating, created_at, is_approved) FROM stdin;
-1	1	1	5	Ћв«Ёз­®Ґ ®Ўб«г¦Ёў ­ЁҐ!	\N	\N	2025-10-23 10:44:16.667103	t
-2	1	1	4	‚Єгб­®, ­® ¦¤ «Ё ¤®«Ј®	\N	\N	2025-10-23 10:44:16.667103	t
+1	1	1	5	Excellent steak and service!	5	5	2025-10-23 21:35:01.808281	t
+2	2	2	4	Tasty but waited too long	3	5	2025-10-23 21:35:01.808281	t
+3	3	3	5	Everything was great, will come again	5	5	2025-10-23 21:35:01.808281	t
 \.
 
 
 --
--- TOC entry 4979 (class 0 OID 16453)
+-- TOC entry 4978 (class 0 OID 16453)
 -- Dependencies: 222
 -- Data for Name: tables; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.tables (id, table_number, capacity, description) FROM stdin;
-1	A1	2	\N
-2	A2	4	\N
-3	B1	6	\N
-4	B2	4	\N
+1	A1	4	Window table
+2	A2	2	Small table
+3	A3	6	For company
+4	B1	4	Center table
+5	B2	8	Large table
+6	C1	2	Romantic table
+7	C2	4	Cozy table
 \.
 
 
 --
--- TOC entry 4999 (class 0 OID 0)
+-- TOC entry 4998 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: customers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.customers_id_seq', 6, true);
+SELECT pg_catalog.setval('public.customers_id_seq', 5, true);
 
 
 --
--- TOC entry 5000 (class 0 OID 0)
+-- TOC entry 4999 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: employees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -441,43 +449,43 @@ SELECT pg_catalog.setval('public.employees_id_seq', 4, true);
 
 
 --
--- TOC entry 5001 (class 0 OID 0)
+-- TOC entry 5000 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: orderitems_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.orderitems_id_seq', 10, true);
+SELECT pg_catalog.setval('public.orderitems_id_seq', 12, true);
 
 
 --
--- TOC entry 5002 (class 0 OID 0)
+-- TOC entry 5001 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 4, true);
+SELECT pg_catalog.setval('public.orders_id_seq', 5, true);
 
 
 --
--- TOC entry 5003 (class 0 OID 0)
+-- TOC entry 5002 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reviews_id_seq', 2, true);
+SELECT pg_catalog.setval('public.reviews_id_seq', 3, true);
 
 
 --
--- TOC entry 5004 (class 0 OID 0)
+-- TOC entry 5003 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: tables_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tables_id_seq', 4, true);
+SELECT pg_catalog.setval('public.tables_id_seq', 7, true);
 
 
 --
--- TOC entry 4815 (class 2606 OID 16517)
+-- TOC entry 4814 (class 2606 OID 16517)
 -- Name: customers customers_phone_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -486,7 +494,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- TOC entry 4817 (class 2606 OID 16515)
+-- TOC entry 4816 (class 2606 OID 16515)
 -- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -495,7 +503,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- TOC entry 4800 (class 2606 OID 16451)
+-- TOC entry 4799 (class 2606 OID 16451)
 -- Name: employees employees_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -504,7 +512,7 @@ ALTER TABLE ONLY public.employees
 
 
 --
--- TOC entry 4813 (class 2606 OID 16490)
+-- TOC entry 4812 (class 2606 OID 16490)
 -- Name: orderitems orderitems_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -513,7 +521,7 @@ ALTER TABLE ONLY public.orderitems
 
 
 --
--- TOC entry 4810 (class 2606 OID 16478)
+-- TOC entry 4809 (class 2606 OID 16478)
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -522,7 +530,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4822 (class 2606 OID 16533)
+-- TOC entry 4821 (class 2606 OID 16533)
 -- Name: reviews reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -531,7 +539,7 @@ ALTER TABLE ONLY public.reviews
 
 
 --
--- TOC entry 4803 (class 2606 OID 16463)
+-- TOC entry 4802 (class 2606 OID 16463)
 -- Name: tables tables_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -540,7 +548,7 @@ ALTER TABLE ONLY public.tables
 
 
 --
--- TOC entry 4805 (class 2606 OID 16465)
+-- TOC entry 4804 (class 2606 OID 16465)
 -- Name: tables tables_table_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -549,7 +557,7 @@ ALTER TABLE ONLY public.tables
 
 
 --
--- TOC entry 4818 (class 1259 OID 16565)
+-- TOC entry 4817 (class 1259 OID 16565)
 -- Name: idx_customers_phone; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -557,7 +565,7 @@ CREATE INDEX idx_customers_phone ON public.customers USING btree (phone);
 
 
 --
--- TOC entry 4801 (class 1259 OID 16566)
+-- TOC entry 4800 (class 1259 OID 16566)
 -- Name: idx_employees_position; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -565,7 +573,7 @@ CREATE INDEX idx_employees_position ON public.employees USING btree ("position")
 
 
 --
--- TOC entry 4811 (class 1259 OID 16562)
+-- TOC entry 4810 (class 1259 OID 16562)
 -- Name: idx_orderitems_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -573,7 +581,7 @@ CREATE INDEX idx_orderitems_order ON public.orderitems USING btree (order_id);
 
 
 --
--- TOC entry 4806 (class 1259 OID 16560)
+-- TOC entry 4805 (class 1259 OID 16560)
 -- Name: idx_orders_date; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -581,7 +589,7 @@ CREATE INDEX idx_orders_date ON public.orders USING btree (order_date);
 
 
 --
--- TOC entry 4807 (class 1259 OID 16561)
+-- TOC entry 4806 (class 1259 OID 16561)
 -- Name: idx_orders_employee; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -589,7 +597,7 @@ CREATE INDEX idx_orders_employee ON public.orders USING btree (employee_id);
 
 
 --
--- TOC entry 4808 (class 1259 OID 16559)
+-- TOC entry 4807 (class 1259 OID 16559)
 -- Name: idx_orders_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -597,7 +605,7 @@ CREATE INDEX idx_orders_status ON public.orders USING btree (status);
 
 
 --
--- TOC entry 4819 (class 1259 OID 16563)
+-- TOC entry 4818 (class 1259 OID 16563)
 -- Name: idx_reviews_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -605,7 +613,7 @@ CREATE INDEX idx_reviews_order ON public.reviews USING btree (order_id);
 
 
 --
--- TOC entry 4820 (class 1259 OID 16564)
+-- TOC entry 4819 (class 1259 OID 16564)
 -- Name: idx_reviews_rating; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -613,7 +621,7 @@ CREATE INDEX idx_reviews_rating ON public.reviews USING btree (rating);
 
 
 --
--- TOC entry 4826 (class 2606 OID 16544)
+-- TOC entry 4825 (class 2606 OID 16544)
 -- Name: orderitems fk_orderitems_order; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -622,7 +630,7 @@ ALTER TABLE ONLY public.orderitems
 
 
 --
--- TOC entry 4823 (class 2606 OID 16534)
+-- TOC entry 4822 (class 2606 OID 16534)
 -- Name: orders fk_orders_employee; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -631,7 +639,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4824 (class 2606 OID 16539)
+-- TOC entry 4823 (class 2606 OID 16539)
 -- Name: orders fk_orders_table; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -640,7 +648,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4827 (class 2606 OID 16554)
+-- TOC entry 4826 (class 2606 OID 16554)
 -- Name: reviews fk_reviews_customer; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -649,7 +657,7 @@ ALTER TABLE ONLY public.reviews
 
 
 --
--- TOC entry 4828 (class 2606 OID 16549)
+-- TOC entry 4827 (class 2606 OID 16549)
 -- Name: reviews fk_reviews_order; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -658,7 +666,7 @@ ALTER TABLE ONLY public.reviews
 
 
 --
--- TOC entry 4825 (class 2606 OID 16570)
+-- TOC entry 4824 (class 2606 OID 16570)
 -- Name: orders orders_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -666,11 +674,11 @@ ALTER TABLE ONLY public.orders
     ADD CONSTRAINT orders_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(id);
 
 
--- Completed on 2025-10-23 19:09:18
+-- Completed on 2025-10-23 21:35:29
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict OLlLzqVgFQRBQlGY7D9YHbwGjEO1abiZscqzFbYNPxKLvlcyXGrA9gRJysyv9dz
+\unrestrict e8dpu6Sxt6nkYCMWvld0PoB9qT4OAnyxX7cU6iGOVlD0dXfAB3AkUCnNLXXjYrp
 

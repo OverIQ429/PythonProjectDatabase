@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict wsJH4YHWPWDj1yTKS6ERUNP4wdERHwenNx6rs0nEb1R8sorebyHNFJTQiBz6Tuj
+\restrict MxxAXDYMbjHYL2s06VAQLXA8DSMDhfWzzb0qiaJcWg7f8u61LKcx63xgb0Mu2xn
 
 -- Dumped from database version 18.0
 -- Dumped by pg_dump version 18.0
 
--- Started on 2025-10-23 19:08:16
+-- Started on 2025-10-23 21:35:54
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -276,12 +276,9 @@ ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 COPY public.addresses (id, country, city, street, building, apartment, postal_code, created_at) FROM stdin;
-1	ђ®ббЁп	Њ®бЄў 	’ўҐабЄ п г«.	25	\N	125009	2025-10-23 10:57:05.158329
-2	ђ®ббЁп	Њ®бЄў 	ЂаЎ в	15	\N	119019	2025-10-23 10:57:05.158329
-3	ђ®ббЁп	‘ ­Єв-ЏҐвҐаЎгаЈ	ЌҐўбЄЁ© Їа.	45	\N	191025	2025-10-23 10:57:05.158329
-4	ђ®ббЁп	Љ § ­м	Ѓ г¬ ­  г«.	30	\N	420111	2025-10-23 10:57:05.158329
-5	ђ®ббЁп	…Є вҐаЁ­ЎгаЈ	г«. ‹Ґ­Ё­ 	24	\N	620014	2025-10-23 10:57:05.158329
-6	ђ®ббЁп	Ќ®ў®бЁЎЁабЄ	Ља б­л© Їа.	50	\N	630049	2025-10-23 10:57:05.158329
+1	Russia	Moscow	Tverskaya street	15	25	125009	2025-10-23 21:33:02.05314
+2	Russia	Saint Petersburg	Nevsky prospect	45	12	191025	2025-10-23 21:33:02.05314
+3	Russia	Kazan	Bauman street	33	8	420111	2025-10-23 21:33:02.05314
 \.
 
 
@@ -292,19 +289,21 @@ COPY public.addresses (id, country, city, street, building, apartment, postal_co
 --
 
 COPY public.dish_ingredients (id, dish_id, ingredient_id, quantity_required) FROM stdin;
-18	1	1	0.300
-19	1	9	0.200
-20	1	10	0.050
-21	1	20	0.030
-22	2	2	0.200
-23	2	12	0.500
-24	2	7	0.100
-25	3	23	0.150
-26	3	4	0.100
-27	3	18	0.050
-28	3	16	0.100
-29	6	24	0.020
-30	6	15	0.200
+1	1	1	300.000
+2	1	16	20.000
+3	1	20	5.000
+4	2	2	250.000
+5	2	16	15.000
+6	2	20	5.000
+7	3	5	200.000
+8	3	13	50.000
+9	3	14	100.000
+10	4	3	200.000
+11	4	8	100.000
+12	4	9	2.000
+13	5	1	150.000
+14	5	13	40.000
+15	5	9	1.000
 \.
 
 
@@ -315,13 +314,11 @@ COPY public.dish_ingredients (id, dish_id, ingredient_id, quantity_required) FRO
 --
 
 COPY public.dishcategories (id, name, description) FROM stdin;
-1	ѓ®апзЁҐ Ў«о¤ 	Ћб­®ў­лҐ Ј®апзЁҐ Ў«о¤  Ё Ј а­Ёал
-2	Ќ ЇЁвЄЁ	•®«®¤­лҐ Ё Ј®апзЁҐ ­ ЇЁвЄЁ
-3	„ҐбҐавл	‘« ¤®бвЁ Ё ўлЇҐзЄ 
-4	‡ ЄгбЄЁ	‘ « вл Ё е®«®¤­лҐ § ЄгбЄЁ
-5	‘гЇл	ѓ®апзЁҐ Ё е®«®¤­лҐ бгЇл
-6	‡ ўва ЄЁ	Ѓ«о¤  ¤«п § ўва Є 
-7	„ҐвбЄ®Ґ ¬Ґ­о	‘ЇҐжЁ «м­®Ґ ¬Ґ­о ¤«п ¤ҐвҐ©
+1	Hot Dishes	Main hot dishes
+2	Drinks	Cold and hot drinks
+3	Desserts	Sweets and desserts
+4	Appetizers	Light appetizers
+5	Salads	Fresh salads
 \.
 
 
@@ -332,17 +329,21 @@ COPY public.dishcategories (id, name, description) FROM stdin;
 --
 
 COPY public.dishes (id, name, description, base_price, category_id, is_active) FROM stdin;
-1	‘вҐ©Є ђЁЎ ©	‘®з­л© бвҐ©Є б ва ў ¬Ё Ё § ЇҐзҐ­­л¬Ё ®ў®й ¬Ё	1200.00	1	t
-2	‹®б®бм ­  ЈаЁ«Ґ	”Ё«Ґ «®б®бп б «Ё¬®­­л¬ б®гб®¬ Ё ЄЁ­® 	850.00	1	t
-3	Џ бв  Љ аЎ®­ а 	Џ бв  б ЎҐЄ®­®¬, бла®¬ Ё б«Ёў®з­л¬ б®гб®¬	450.00	1	t
-4	ЉгаЁ­®Ґ дЁ«Ґ	ЉгаЁ­®Ґ дЁ«Ґ б Є ав®дҐ«м­л¬ ЇоаҐ	380.00	1	t
-5	ЃгаЈҐа Љ« ббЁЄ	ѓ®ўп¦Ё© ЎгаЈҐа б ®ў®й ¬Ё Ё б®гб®¬	420.00	1	t
-6	‹ ввҐ	Љ®дҐ « ввҐ б ¬®«®Є®¬	280.00	2	t
-7	Љ ЇгзЁ­®	Љ« ббЁзҐбЄЁ© Є ЇгзЁ­®	260.00	2	t
-8	ќбЇаҐбб®	ЉаҐЇЄЁ© нбЇаҐбб®	180.00	2	t
-9	— © зҐа­л©	—Ґа­л© з © б ўлЎ®а®¬ ¤®Ў ў®Є	150.00	2	t
-10	‘®Є  ЇҐ«мбЁ­®ўл©	‘ўҐ¦Ґўл¦ вл©  ЇҐ«мбЁ­®ўл© б®Є	220.00	2	t
-11	Њ®аб Є«оЄўҐ­­л©	ЋбўҐ¦ ойЁ© Є«оЄўҐ­­л© ¬®аб	190.00	2	t
+1	Ribeye Steak	Premium beef steak	1200.00	1	t
+2	Grilled Salmon	Fresh salmon with herbs	850.00	1	t
+3	Carbonara Pasta	Classic Italian pasta	450.00	1	t
+4	Chicken Fillet	Tender chicken with vegetables	380.00	1	t
+5	Classic Burger	Classic beef burger	420.00	1	t
+6	Caesar Roll	Roll with chicken and caesar sauce	320.00	4	t
+7	Latte	Coffee with milk	280.00	2	t
+8	Cappuccino	Coffee drink with foam	260.00	2	t
+9	Espresso	Strong coffee	180.00	2	t
+10	Black Tea	Classic black tea	150.00	2	t
+11	Cheesecake	New York style cheesecake	350.00	3	t
+12	Tiramisu	Italian dessert	380.00	3	t
+13	Greek Salad	Fresh salad	290.00	5	t
+14	Tom Yum Soup	Spicy soup	420.00	1	t
+15	Margarita Pizza	Classic pizza	480.00	1	t
 \.
 
 
@@ -353,32 +354,26 @@ COPY public.dishes (id, name, description, base_price, category_id, is_active) F
 --
 
 COPY public.ingredients (id, name, unit_of_measure) FROM stdin;
-1	ѓ®ўп¤Ё­  ђЁЎ ©	ЄЈ
-2	”Ё«Ґ «®б®бп	ЄЈ
-3	ЉгаЁ­®Ґ дЁ«Ґ	ЄЈ
-4	ЃҐЄ®­	Ј
-5	‚ҐвзЁ­ 	Ј
-6	ЉаҐўҐвЄЁ	Ј
-7	Џ®¬Ё¤®ал	ЄЈ
-8	‘ « в а®¬ ­®	ЄЈ
-9	Љ ав®дҐ«м	ЄЈ
-10	‹гЄ	ЄЈ
-11	—Ґб­®Є	ЄЈ
-12	‹Ё¬®­л	ив
-13	ЂЇҐ«мбЁ­л	ив
-14	Љ«оЄў 	ЄЈ
-15	Њ®«®Є®	«
-16	‘«ЁўЄЁ	«
-17	‘ла Џ а¬Ґ§ ­	Ј
-18	‘ла Њ бЄ аЇ®­Ґ	Ј
-19	Њ б«® б«Ёў®з­®Ґ	Ј
-20	‰®Јгав ЈаҐзҐбЄЁ©	Ј
-21	Џ бв  дҐввгзЁ­Ё	ЄЈ
-22	Љ®дҐ §Ґа­®ў®©	Ј
-23	— © зҐа­л©	Ј
-24	‘ е а	ЄЈ
-25	ЊгЄ 	ЄЈ
-26	џ©ж 	ив
+1	Beef	g
+2	Salmon	g
+3	Chicken	g
+4	Pork	g
+5	Pasta	g
+6	Rice	g
+7	Potato	g
+8	Lettuce	g
+9	Tomato	pcs
+10	Cucumber	pcs
+11	Onion	pcs
+12	Garlic	pcs
+13	Cheese	g
+14	Milk	ml
+15	Cream	ml
+16	Butter	ml
+17	Coffee	g
+18	Tea	g
+19	Sugar	g
+20	Salt	g
 \.
 
 
@@ -388,7 +383,7 @@ COPY public.ingredients (id, name, unit_of_measure) FROM stdin;
 -- Name: addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.addresses_id_seq', 6, true);
+SELECT pg_catalog.setval('public.addresses_id_seq', 3, true);
 
 
 --
@@ -397,7 +392,7 @@ SELECT pg_catalog.setval('public.addresses_id_seq', 6, true);
 -- Name: dish_ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.dish_ingredients_id_seq', 30, true);
+SELECT pg_catalog.setval('public.dish_ingredients_id_seq', 15, true);
 
 
 --
@@ -406,7 +401,7 @@ SELECT pg_catalog.setval('public.dish_ingredients_id_seq', 30, true);
 -- Name: dishcategories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.dishcategories_id_seq', 7, true);
+SELECT pg_catalog.setval('public.dishcategories_id_seq', 5, true);
 
 
 --
@@ -415,7 +410,7 @@ SELECT pg_catalog.setval('public.dishcategories_id_seq', 7, true);
 -- Name: dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.dishes_id_seq', 11, true);
+SELECT pg_catalog.setval('public.dishes_id_seq', 15, true);
 
 
 --
@@ -424,7 +419,7 @@ SELECT pg_catalog.setval('public.dishes_id_seq', 11, true);
 -- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ingredients_id_seq', 26, true);
+SELECT pg_catalog.setval('public.ingredients_id_seq', 20, true);
 
 
 --
@@ -508,11 +503,11 @@ ALTER TABLE ONLY public.dishes
     ADD CONSTRAINT dishes_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.dishcategories(id);
 
 
--- Completed on 2025-10-23 19:08:16
+-- Completed on 2025-10-23 21:35:54
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict wsJH4YHWPWDj1yTKS6ERUNP4wdERHwenNx6rs0nEb1R8sorebyHNFJTQiBz6Tuj
+\unrestrict MxxAXDYMbjHYL2s06VAQLXA8DSMDhfWzzb0qiaJcWg7f8u61LKcx63xgb0Mu2xn
 
