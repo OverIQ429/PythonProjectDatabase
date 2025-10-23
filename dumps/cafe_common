@@ -1,0 +1,513 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict bfBd1TsOZdqnE38mdW3r0v1gwyGCksgFBVCZIn7ydSwksMajmdDExLDuakT2BNJ
+
+-- Dumped from database version 18.0
+-- Dumped by pg_dump version 18.0
+
+-- Started on 2025-10-23 23:55:59
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 226 (class 1259 OID 16492)
+-- Name: addresses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.addresses (
+    id integer NOT NULL,
+    country character varying(100) NOT NULL,
+    city character varying(100) NOT NULL,
+    street character varying(200) NOT NULL,
+    building character varying(20) NOT NULL,
+    apartment character varying(20),
+    postal_code character varying(20),
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.addresses OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 16491)
+-- Name: addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.addresses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.addresses_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4959 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.addresses_id_seq OWNED BY public.addresses.id;
+
+
+--
+-- TOC entry 228 (class 1259 OID 16576)
+-- Name: dish_ingredients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dish_ingredients (
+    id integer NOT NULL,
+    dish_id integer NOT NULL,
+    ingredient_id integer NOT NULL,
+    quantity_required numeric(10,3) NOT NULL
+);
+
+
+ALTER TABLE public.dish_ingredients OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 16575)
+-- Name: dish_ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dish_ingredients_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dish_ingredients_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4960 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: dish_ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dish_ingredients_id_seq OWNED BY public.dish_ingredients.id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16402)
+-- Name: dishcategories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dishcategories (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    description text
+);
+
+
+ALTER TABLE public.dishcategories OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16401)
+-- Name: dishcategories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dishcategories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dishcategories_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4961 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: dishcategories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dishcategories_id_seq OWNED BY public.dishcategories.id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 16413)
+-- Name: dishes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.dishes (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    description text,
+    base_price numeric(10,2) NOT NULL,
+    category_id integer,
+    is_active boolean DEFAULT true
+);
+
+
+ALTER TABLE public.dishes OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16412)
+-- Name: dishes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.dishes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.dishes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4962 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: dishes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.dishes_id_seq OWNED BY public.dishes.id;
+
+
+--
+-- TOC entry 224 (class 1259 OID 16431)
+-- Name: ingredients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ingredients (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    unit_of_measure character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.ingredients OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 16430)
+-- Name: ingredients_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ingredients_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.ingredients_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4963 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: ingredients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
+
+
+--
+-- TOC entry 4779 (class 2604 OID 16495)
+-- Name: addresses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.addresses ALTER COLUMN id SET DEFAULT nextval('public.addresses_id_seq'::regclass);
+
+
+--
+-- TOC entry 4781 (class 2604 OID 16579)
+-- Name: dish_ingredients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dish_ingredients ALTER COLUMN id SET DEFAULT nextval('public.dish_ingredients_id_seq'::regclass);
+
+
+--
+-- TOC entry 4775 (class 2604 OID 16405)
+-- Name: dishcategories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dishcategories ALTER COLUMN id SET DEFAULT nextval('public.dishcategories_id_seq'::regclass);
+
+
+--
+-- TOC entry 4776 (class 2604 OID 16416)
+-- Name: dishes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dishes ALTER COLUMN id SET DEFAULT nextval('public.dishes_id_seq'::regclass);
+
+
+--
+-- TOC entry 4778 (class 2604 OID 16434)
+-- Name: ingredients id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.ingredients_id_seq'::regclass);
+
+
+--
+-- TOC entry 4951 (class 0 OID 16492)
+-- Dependencies: 226
+-- Data for Name: addresses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.addresses (id, country, city, street, building, apartment, postal_code, created_at) FROM stdin;
+1	Russia	Moscow	Tverskaya street	15	25	125009	2025-10-23 21:33:02.05314
+2	Russia	Saint Petersburg	Nevsky prospect	45	12	191025	2025-10-23 21:33:02.05314
+3	Russia	Kazan	Bauman street	33	8	420111	2025-10-23 21:33:02.05314
+\.
+
+
+--
+-- TOC entry 4953 (class 0 OID 16576)
+-- Dependencies: 228
+-- Data for Name: dish_ingredients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.dish_ingredients (id, dish_id, ingredient_id, quantity_required) FROM stdin;
+1	1	1	300.000
+2	1	16	20.000
+3	1	20	5.000
+4	2	2	250.000
+5	2	16	15.000
+6	2	20	5.000
+7	3	5	200.000
+8	3	13	50.000
+9	3	14	100.000
+10	4	3	200.000
+11	4	8	100.000
+12	4	9	2.000
+13	5	1	150.000
+14	5	13	40.000
+15	5	9	1.000
+\.
+
+
+--
+-- TOC entry 4945 (class 0 OID 16402)
+-- Dependencies: 220
+-- Data for Name: dishcategories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.dishcategories (id, name, description) FROM stdin;
+1	Hot Dishes	Main hot dishes
+2	Drinks	Cold and hot drinks
+3	Desserts	Sweets and desserts
+4	Appetizers	Light appetizers
+5	Salads	Fresh salads
+\.
+
+
+--
+-- TOC entry 4947 (class 0 OID 16413)
+-- Dependencies: 222
+-- Data for Name: dishes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.dishes (id, name, description, base_price, category_id, is_active) FROM stdin;
+1	Ribeye Steak	Premium beef steak	1200.00	1	t
+2	Grilled Salmon	Fresh salmon with herbs	850.00	1	t
+3	Carbonara Pasta	Classic Italian pasta	450.00	1	t
+4	Chicken Fillet	Tender chicken with vegetables	380.00	1	t
+5	Classic Burger	Classic beef burger	420.00	1	t
+6	Caesar Roll	Roll with chicken and caesar sauce	320.00	4	t
+7	Latte	Coffee with milk	280.00	2	t
+8	Cappuccino	Coffee drink with foam	260.00	2	t
+9	Espresso	Strong coffee	180.00	2	t
+10	Black Tea	Classic black tea	150.00	2	t
+11	Cheesecake	New York style cheesecake	350.00	3	t
+12	Tiramisu	Italian dessert	380.00	3	t
+13	Greek Salad	Fresh salad	290.00	5	t
+14	Tom Yum Soup	Spicy soup	420.00	1	t
+15	Margarita Pizza	Classic pizza	480.00	1	t
+\.
+
+
+--
+-- TOC entry 4949 (class 0 OID 16431)
+-- Dependencies: 224
+-- Data for Name: ingredients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ingredients (id, name, unit_of_measure) FROM stdin;
+1	Beef	g
+2	Salmon	g
+3	Chicken	g
+4	Pork	g
+5	Pasta	g
+6	Rice	g
+7	Potato	g
+8	Lettuce	g
+9	Tomato	pcs
+10	Cucumber	pcs
+11	Onion	pcs
+12	Garlic	pcs
+13	Cheese	g
+14	Milk	ml
+15	Cream	ml
+16	Butter	ml
+17	Coffee	g
+18	Tea	g
+19	Sugar	g
+20	Salt	g
+\.
+
+
+--
+-- TOC entry 4964 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.addresses_id_seq', 3, true);
+
+
+--
+-- TOC entry 4965 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: dish_ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.dish_ingredients_id_seq', 15, true);
+
+
+--
+-- TOC entry 4966 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: dishcategories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.dishcategories_id_seq', 5, true);
+
+
+--
+-- TOC entry 4967 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.dishes_id_seq', 15, true);
+
+
+--
+-- TOC entry 4968 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ingredients_id_seq', 20, true);
+
+
+--
+-- TOC entry 4789 (class 2606 OID 16503)
+-- Name: addresses addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.addresses
+    ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4791 (class 2606 OID 16587)
+-- Name: dish_ingredients dish_ingredients_dish_id_ingredient_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dish_ingredients
+    ADD CONSTRAINT dish_ingredients_dish_id_ingredient_id_key UNIQUE (dish_id, ingredient_id);
+
+
+--
+-- TOC entry 4793 (class 2606 OID 16585)
+-- Name: dish_ingredients dish_ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dish_ingredients
+    ADD CONSTRAINT dish_ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4783 (class 2606 OID 16411)
+-- Name: dishcategories dishcategories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dishcategories
+    ADD CONSTRAINT dishcategories_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4785 (class 2606 OID 16424)
+-- Name: dishes dishes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dishes
+    ADD CONSTRAINT dishes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4787 (class 2606 OID 16439)
+-- Name: ingredients ingredients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ingredients
+    ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4795 (class 2606 OID 16588)
+-- Name: dish_ingredients dish_ingredients_dish_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dish_ingredients
+    ADD CONSTRAINT dish_ingredients_dish_id_fkey FOREIGN KEY (dish_id) REFERENCES public.dishes(id);
+
+
+--
+-- TOC entry 4796 (class 2606 OID 16593)
+-- Name: dish_ingredients dish_ingredients_ingredient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dish_ingredients
+    ADD CONSTRAINT dish_ingredients_ingredient_id_fkey FOREIGN KEY (ingredient_id) REFERENCES public.ingredients(id);
+
+
+--
+-- TOC entry 4794 (class 2606 OID 16425)
+-- Name: dishes dishes_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.dishes
+    ADD CONSTRAINT dishes_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.dishcategories(id);
+
+
+-- Completed on 2025-10-23 23:56:00
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict bfBd1TsOZdqnE38mdW3r0v1gwyGCksgFBVCZIn7ydSwksMajmdDExLDuakT2BNJ
+
