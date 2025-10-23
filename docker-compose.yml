@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # База данных cafe_common
   postgres-common:
     image: postgres:17
     container_name: cafe_postgres_common
@@ -13,9 +14,17 @@ services:
     volumes:
       - postgres_common_data:/var/lib/postgresql/data
       - ./dumps:/dumps
+      - ./backups:/backups
+      - ./scripts:/scripts
     networks:
       - cafe_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cafe_common"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
+  # База данных cafe_branch_1
   postgres-branch:
     image: postgres:17
     container_name: cafe_postgres_branch
@@ -28,8 +37,40 @@ services:
     volumes:
       - postgres_branch_data:/var/lib/postgresql/data
       - ./dumps:/dumps
+      - ./backups:/backups
+      - ./scripts:/scripts
     networks:
       - cafe_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cafe_branch_1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Python приложение
+  cafe-app:
+    build: .
+    container_name: cafe_python_app
+    volumes:
+      - .:/app
+      - ./dumps:/app/dumps
+      - ./backups:/app/backups
+    working_dir: /app
+    depends_on:
+      postgres-common:
+        condition: service_healthy
+      postgres-branch:
+        condition: service_healthy
+    networks:
+      - cafe_network
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      sh -c "
+        echo 'Ожидание восстановления баз данных...' &&
+        sleep 10 &&
+        python main.py
+      "
 
 volumes:
   postgres_common_data:

@@ -25,6 +25,3 @@ RUN chmod +x restore_databases.sh
 
 # Открываем порт (если нужно)
 EXPOSE 8000
-
-# Команда по умолчанию
-CMD ["python", "main.py"]
