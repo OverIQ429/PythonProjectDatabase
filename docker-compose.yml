@@ -1,32 +1,50 @@
 version: '3.8'
 
 services:
-  postgres-common:
+  postgres_common:
     image: postgres:18
     container_name: cafe_postgres_common
     environment:
+      POSTGRES_DB: cafe_common
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: cafe_common
     ports:
       - "5432:5432"
     volumes:
-      - postgres_common_data:/var/lib/postgresql/data
-    restart: unless-stopped
+      - postgres_common_data:/var/lib/postgresql
+    command: >
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  postgres-branch:
+  postgres_branch:
     image: postgres:18
     container_name: cafe_postgres_branch
     environment:
+      POSTGRES_DB: cafe_branch_1
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: cafe_branch_1
     ports:
       - "5433:5432"
     volumes:
-      - postgres_branch_data:/var/lib/postgresql/data
-    restart: unless-stopped
+      - postgres_branch_data:/var/lib/postgresql
+    command: >
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
+volumes:
+  postgres_common_data:
+  postgres_branch_data:
+EOF
 volumes:
   postgres_common_data:
   postgres_branch_data:
