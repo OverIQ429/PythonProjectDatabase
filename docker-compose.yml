@@ -9,6 +9,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: cafe_common
+      LC_ALL: ru_RU.UTF-8
+      LANG: ru_RU.UTF-8
     ports:
       - "5432:5432"
     volumes:
@@ -32,6 +34,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: cafe_branch_1
+      LC_ALL: ru_RU.UTF-8
+      LANG: ru_RU.UTF-8
     ports:
       - "5433:5432"
     volumes:

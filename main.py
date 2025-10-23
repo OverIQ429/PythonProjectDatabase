@@ -12,7 +12,7 @@ class CafeDatabaseManager:
             port="5432",
             database="cafe_common",
             user="postgres",
-            password="password"
+            password="postgres"
         )
 
         # Подключение к базе филиала (порт 5433)
@@ -21,7 +21,7 @@ class CafeDatabaseManager:
             port="5433",
             database="cafe_branch_1",
             user="postgres",
-            password="password"
+            password="postgres"
         )
 
     def close_connections(self):
@@ -323,7 +323,7 @@ def main():
 
         print("\n2. 🆕 CREATE ОПЕРАЦИИ:")
         # Создаем нового клиента в базе филиала
-        customer_id = manager.create_customer("Анна", "Демо", "+79990003344", "anna@demo.ru")
+        customer_id = manager.create_customer("Анна", "Демо", "+78005553535", "anna@demo.ru")
 
         # Создаем новый заказ в базе филиала
         order_id = manager.create_order(employee_id=1, table_id=2, customer_id=customer_id)
