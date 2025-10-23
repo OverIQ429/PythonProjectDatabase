@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres-common:
+    image: postgres:17
+    container_name: cafe_postgres_common
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cafe_common
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_common_data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    networks:
+      - cafe_network
+
+  postgres-branch:
+    image: postgres:17
+    container_name: cafe_postgres_branch
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cafe_branch_1
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_branch_data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    networks:
+      - cafe_network
+
+volumes:
+  postgres_common_data:
+  postgres_branch_data:
+
+networks:
+  cafe_network:
+    driver: bridge
