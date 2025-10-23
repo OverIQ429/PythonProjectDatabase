@@ -44,7 +44,3 @@ services:
 volumes:
   postgres_common_data:
   postgres_branch_data:
-EOF
-volumes:
-  postgres_common_data:
-  postgres_branch_data:
